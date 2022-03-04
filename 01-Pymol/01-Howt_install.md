@@ -1,0 +1,3 @@
+# 0. What is Pymol
+Pymol is structural biology tool for viewing and editing protein structure.파이몰은 있자너 단백질 구조를 시각적으로 볼수 있게 해주거던 그냥 설치하면돼. There are similar kinda called Chimera, VMD, PMV... somany of them but Pymol has the most intuitive interface and selection mechanism. 머 잡다한것들 여러개가 있지만 파이몰은 좀 직관적이라 사용하기 편할거야 ...
+
