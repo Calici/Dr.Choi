@@ -18,6 +18,10 @@ https://www.lfd.uci.edu/~gohlke/pythonlibs/#pymol-open-source
 Thanks to  Christoph Gohlke of the Laboratory for Fluorescence Dynamics, University of California, Irvine, he has lots of pre-compiled binaries of whl files. 고맙게도 크리스토퍼가 컴파일 다 해놨으니까 님들은 그냥 다운로드만 받으면됨.  
 
 <img src="00-images/pymol01.PNG" style="zoom:100%;" />  
+
+
+
+
 파이썬 버젼과 윈도우가 32비트인지 64비트인지 잘 알아보고 다운로드하시길 바람. 다양한 켐비네이션이 존재하지만 파이몰 버젼 2.4와 파이썬 버젼 3.8이 잘 구동되는것을 확인했슴 참고바람. 
 
 ## 2) Install Anaconda
@@ -27,3 +31,26 @@ Well This is a time sensitive issue. so far at the year of 2022 march. There are
 C:\ProgramData\Anaconda3  
 에 설치가됨을 알 수 있죠 ^^
 
+
+
+
+## 3) Create pymol environment
+윈도우 cmd에서 다음 명령어를 처보자. 콘다가 제대로 설치되어 있다면 버추얼 환경이 만들어져해.  
+
+근데 아직도 cmd나 혹은 Powershell 혹은 gitbash를 Windows10에서 사용하고 있는 친구들이 있다면 당장 Windows Terminal로 갈아타라고 추천해주고 싶어.  
+
+https://docs.microsoft.com/ko-kr/windows/terminal/install  
+
+왜냐하면 나중에 이 Windows Terminal 설정하는것도 다룰거거든 ^^ 하여간 VS code와 Windows Terminal은 필수 임을 명심하쟈.
+
+    conda create -n pymol  python=3.8
+This commad will create conda environment with python version 3.8. 파이썬 2.7 분리한다고들 할때부터 이런 사단이 날걸 예상했지만 파이썬 버젼이 업글될때마다 오래된 프로그램들은 새버젼 파이썬에서 안돌아감 발암 ^^; 그럼에도 불구하고 맨날 Backward compatibility 만 주구장장 선전함 ^^; 그래서 생겨난것들이 venv, Pyvenv, pipenv 주구 장장 많치만 버추얼 환경을 구성하는데 콘다 만큼 확실한게 없슴. 요즘 뜬다고하는 Poetry는 시간 있는 사람함 해보고 횽아 한테 알려주기바래.  
+
+    conda activate pymol
+
+<img src="00-images/pymol03.PNG" style="zoom:100%;" />  
+
+
+
+
+가상환경이 2개였다가 바뀌는걸 확인 할 수있고 현재 가상환경이 pymol임을 친절히 알려주네 ^^ 
