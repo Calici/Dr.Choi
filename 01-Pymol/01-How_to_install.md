@@ -57,8 +57,7 @@ This commad will create conda environment with python version 3.8.
 
 가상환경이 2개였다가 바뀌는걸 확인 할 수있고 현재 가상환경이 pymol임을 친절히 알려주네 ^^  
 
-    conda install -c conda-forge pip numpy pmw biopython     
-    conda install pyqt5
+    conda install -c conda-forge pip numpy pmw biopython    
     conda config --add channels salilab
     conda install modeller
     conda list
@@ -111,9 +110,87 @@ They changed GUI from tkinter to QT so we had to install PyQT5 for plugin instal
 <br>
 
 # 3. for Advanced Users (Intall Plugins and Terminal setup)
-Pymol provides lots of plugins or even you can develop a plugin by yourselves using PyQt.  
+Pymol provides lots of plugins or even you can develop a plugin by yourselves using PyQt.
+
+## 1) Warning about pyqt vs pyqt5 conflit
+Pymol's default GUI was tkinter untill version 2.1. they introduced QT options. Some of the plugins you will see on the internet start to use pyqt5. but in conda there is no pyqt5 so it is easy to install pyqt and install dependency qt and xorg library then later on install pyqt5 using pip command. Then thing will be messy like this.   
+
+<img src="00-images/pymol05.PNG" style="zoom:100%;" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+it is hard to grasp what is happening. and conda uninstall pyqt5 will not work because it has to be pip uninstall pyqt5.  
+초기 파이몰이 GUI를 제공하기위해 tkinter를 사용했지만 버젼 2.1부터 pyqt5를 지원하기 시작했슴. 근데 conda-forge 레포에는 pyqt5가 없으니 pyqt를 대신 설치하고 나중에 pip으로 pyqt5를 설치하게되면 그림처럼 레포가 서로다는게 설치되게되고 심지어 xorg(리눅스)에나 있을법한것들이 설치되게됨. 파이몰 레포를 보게되면 pypi인걸 알 수 있고 이건 conda 하위 pip을 설치된거거든 따라서 pyqt를 uninstall해주어야함. 
+
+    # Name                    Version                   Build  Channel
+    biopython                 1.79             py38h294d835_1    conda-forge
+    ca-certificates           2022.2.1             haa95532_0
+    certifi                   2021.10.8        py38haa95532_2
+    git                       2.34.1               haa95532_0
+    intel-openmp              2022.0.0          haa95532_3663
+    libblas                   3.9.0              13_win64_mkl    conda-forge
+    libcblas                  3.9.0              13_win64_mkl    conda-forge
+    liblapack                 3.9.0              13_win64_mkl    conda-forge
+    m2w64-gcc-libgfortran     5.3.0                         6    conda-forge
+    m2w64-gcc-libs            5.3.0                         7    conda-forge
+    m2w64-gcc-libs-core       5.3.0                         7    conda-forge
+    m2w64-gmp                 6.1.0                         2    conda-forge
+    m2w64-libwinpthread-git   5.0.0.4634.697f757               2    conda-forge
+    mkl                       2022.0.0           h0e2418a_796    conda-forge
+    modeller                  10.2             py38he774522_1    salilab
+    msys2-conda-epoch         20160418                      1    conda-forge
+    numpy                     1.19.0+mkl               pypi_0    pypi
+    openssl                   1.1.1m               h2bbff1b_0
+    pip                       20.2.4                   py38_0    anaconda
+    pmw                       2.0.1           py38haa244fe_1004    conda-forge
+    pymol                     2.6.0a0                  pypi_0    pypi
+    pymol-launcher            2.1                      pypi_0    pypi
+    python                    3.8.11               h6244533_1
+    python_abi                3.8                      2_cp38    conda-forge
+    scipy                     1.8.0            py38ha1292f7_1    conda-forge
+    setuptools                58.0.4           py38haa95532_0
+    sqlite                    3.37.2               h2bbff1b_0
+    tbb                       2021.5.0             h59b6b97_0
+    vc                        14.2                 h21ff451_1
+    vs2015_runtime            14.27.29016          h5e58377_2
+    wheel                     0.37.1             pyhd3eb1b0_0
+    wincertstore              0.2              py38haa95532_2
+
+even with this minimal packages, pymol runs without problem. but we can't use Pymod3 plugin so we need to install pyqt5 anyway. 
+
+    (pymol) C:\WINDOWS\system32>pip install pyqt5
+    Collecting pyqt5
+    Using cached PyQt5-5.15.6-cp36-abi3-win_amd64.whl (6.7 MB)
+    Collecting PyQt5-sip<13,>=12.8
+    Using cached PyQt5_sip-12.9.1-cp38-cp38-win_amd64.whl (77 kB)
+    Collecting PyQt5-Qt5>=5.15.2
+    Using cached PyQt5_Qt5-5.15.2-py3-none-win_amd64.whl (50.1 MB)
+    Installing collected packages: PyQt5-sip, PyQt5-Qt5, pyqt5
+    Successfully installed PyQt5-Qt5-5.15.2 PyQt5-sip-12.9.1 pyqt5-5.15.6
   
-## 1) Install Pymol extended scripts
+## 3) Install Pymol extended scripts (Depreciated)
+wxpython doen't support Python 3.8 so we need to convert wxpython part to PyQT5  
+
+----------------------- Skip this part  Start --------------  
+
 There were so many interface changes so we need to install many dependencies.  
 
     conda install -c conda-forge scipy matplotlib wxpython git
@@ -143,7 +220,7 @@ ad code will be like this
     pymol.plugins.set_startup_path([os.path.join(pymol_git, 'plugins'), os.path.join(sys.prefix, 'Lib', 'site-packages', 'pmg_tk', 'startup')])
     pymol.plugins.preferences = {'instantsave': True, 'verbose': False}  
 
-
+--------------------------- Skip this part end --------------------------------
 
 
 
