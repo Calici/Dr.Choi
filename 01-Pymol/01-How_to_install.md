@@ -107,6 +107,44 @@ simple yeah ^^ make sure You activated pymol conda environment.
 
 
 They changed GUI from tkinter to QT so we had to install PyQT5 for plugin install.  
+<br>
+<br>
+
+# 3. for Advanced Users (Intall Plugins and Terminal setup)
+Pymol provides lots of plugins or even you can develop a plugin by yourselves using PyQt.  
+  
+## 1) Install Pymol extended scripts
+There were so many interface changes so we need to install many dependencies.  
+
+    conda install -c conda-forge scipy matplotlib wxpython git
+    cd C:\Users\jaemu\.conda\envs\pymol\Lib\site-packages\pymol\pymol_path
+    git clone https://github.com/Pymol-Scripts/Pymol-script-repo
+
+* keep in mind that Pymol installation directory might change depending on which Anaconda or miniconda package installed so try to get the installation directory in the "Pymol cmd" 
+
+    print os.environ['PYMOL_PATH']
+
+create and edit file suing VS code.
+   
+Then creat a file "run_on_startup.py" under the directory of C:\Users\jaemu\.conda\envs\pymol\Lib\site-packages\pymol\pymol_path  
+ad code will be like this  
+
+     # Add paths to sys.path so PyMOL can find modules and scripts
+    import sys, os
+    pymol_git = os.path.abspath(os.path.join(os.environ['PYMOL_PATH'], 'Pymol-script-repo'))
+    os.environ['PYMOL_GIT_MOD'] = os.path.join(pymol_git,'modules')
+    sys.path.append(pymol_git)
+    sys.path.append(os.environ['PYMOL_GIT_MOD'])
+
+    # Make setting changes to Plugin Manager
+    import pymol.plugins
+    pymol.plugins.preferences = {'instantsave': False, 'verbose': False}
+    pymol.plugins.autoload = {'apbs_tools': False}
+    pymol.plugins.set_startup_path([os.path.join(pymol_git, 'plugins'), os.path.join(sys.prefix, 'Lib', 'site-packages', 'pmg_tk', 'startup')])
+    pymol.plugins.preferences = {'instantsave': True, 'verbose': False}  
+
+
+
 
 
 
