@@ -174,7 +174,9 @@ it is hard to grasp what is happening. and conda uninstall pyqt5 will not work b
     wheel                     0.37.1             pyhd3eb1b0_0
     wincertstore              0.2              py38haa95532_2
 
-even with this minimal packages, pymol runs without problem. but we can't use Pymod3 plugin so we need to install pyqt5 anyway. 
+even with this minimal packages, pymol runs without problem. but we can't use Pymod3 plugin so we need to install pyqt5 anyway.  
+
+자 pip 커맨들 이용하여 PyQt5를 설치해주자.
 
     (pymol) C:\WINDOWS\system32>pip install pyqt5
     Collecting pyqt5
@@ -185,9 +187,43 @@ even with this minimal packages, pymol runs without problem. but we can't use Py
     Using cached PyQt5_Qt5-5.15.2-py3-none-win_amd64.whl (50.1 MB)
     Installing collected packages: PyQt5-sip, PyQt5-Qt5, pyqt5
     Successfully installed PyQt5-Qt5-5.15.2 PyQt5-sip-12.9.1 pyqt5-5.15.6
+
+
+## 2) Install Pymod3 Plugin to Pymol
+https://github.com/pymodproject/pymod  
+ - download the plugin. It is a Zip file and keep it that way. You don't have to uninstall.
+ - Pymol go to Menue > Plugin > Plugin manager > install new plugin
+ > Instal might cause error so in that case, install what is missing. 
+
+Now you will have a single window GUI supported by PyQT5.
+
+<img src="00-images/pymol06.PNG" style="zoom:100%;" />  
+
+
+
+
+
   
-## 3) Install Pymol extended scripts (Depreciated)
-wxpython doen't support Python 3.8 so we need to convert wxpython part to PyQT5  
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+지면관계상 이 플러그인을 어떻게 상요하는지는 다음편에서 다루어야할듯해 ^^  
+
+
+## 3) Install Pymol legacy scripts (Depreciated)
+wxpython doen't support Python 3.8 so we need to convert wxpython part to PyQT5.  
+레거시 플러그인들을 설치하고자 하는 횽들은 wxPython 서리가 필요한데 이게 파이썬 3.7 까지만 지원하니까 능력자들은 요기르 바꿔 주면 감사하겠어. 
 
 ----------------------- Skip this part  Start --------------  
 
@@ -222,6 +258,75 @@ ad code will be like this
 
 --------------------------- Skip this part end --------------------------------
 
+## 4) Windows Terminal setup in Widnows 10
+Well.. if you want to change the behavear of Terminal in Linux we might want to write something on .bashrc or .bash_profile but in Window10 we are using Windows Terminal. so we have to change jason file.  
+리눅스 환경이라면 당근 .bashrc or .bash_profile을 설정하면 터미널 환경이 바끼겠지만 윈도우는 세팅파일을 바꿔줘야함. 
+So Open Windows Terminal and go setting 
 
+<img src="00-images/pymol07.PNG" style="zoom:100%;" />
 
+터미널 드랍다운 메뉴에서 세팅 아이콘 눌러주고 원하는 환경을 누르면 VS code에서 jason 파일을 영어줄거임.  
 
+    "profiles": 
+        {
+            "defaults": {},
+            "list": 
+            [               
+                {
+                "guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
+                "hidden": false,
+                "name": "Ubuntu-20.04",
+                "source": "Windows.Terminal.Wsl"
+                },
+                {
+                    "guid": "{2337f50b-bd5c-4877-b127-d643395b8fe2}",
+                    "hidden": false,
+                    "name": "Anaconda",
+                    "suppressApplicationTitle": true,
+                    "commandline": "cmd.exe \"/K\" C:\\ProgramData\\Anaconda3\\Scripts\\activate.bat C:\\ProgramData\\Anaconda3 ",
+                    "icon": "C:\\ProgramData\\Anaconda3\\anaconda-icon-1024x1024.png"
+                },
+                {
+                    "commandline": "powershell.exe",
+                    "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+                    "hidden": false,
+                    "name": "Windows PowerShell"
+                },
+                {
+                    "commandline": "cmd.exe",
+                    "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+                    "hidden": false,
+                    "name": "Command Prompt"
+                },
+                {
+                    "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
+                    "hidden": false,
+                    "name": "Azure Cloud Shell",
+                    "source": "Windows.Terminal.Azure"
+                }
+            ]
+        },   
+
+Replace profile section like this. notice the anaconda icon that we can put it there as well.  
+프로파일 항목을 다음과 같이 바꿔주고 아나콘다 아이콘도 다운로드 받아 넣어주도록하자. 이제 아나콘다 환경이 두번째 위치로 바뀌고 녹색 원형의 뱀모양 아이콘도 보일것이다. ^^  
+
+## 5) Automatic conda activation on Anaconda cmd
+Most of people already notice from above that I am using Ubuntu20.04 on WSL2/Docker and similar Linux environment by ssh. I hardly use Python on Windows 10 except this Graphic intensive stuff. I really don't wanna type conda activate pymol all the time.  
+필자는 리눅스 혹은 WSL2 환경에서 도커/리눅스를 사용하여 개발을 하는관계로 윈도우에서 매번 콘다환경을 활성시키기가 귀찬거든...   
+> C:\\ProgramData\\Anaconda3\\Scripts\\activate.bat  
+
+Edit this file so that we don't have to do it everytime.  
+
+    @REM This may work if there are spaces in anything in %*
+    @CALL "%~dp0..\condabin\conda.bat" activate %*
+    @CALL "%~dp0..\condabin\conda.bat" activate pymol
+
+Put a one more line to activate pymol virtual environment.  
+다음 항목에 한줄을 추가하여 파이몰 환경을 자동으로 활성화 시키도록하쟈 ^^.
+
+자 이제는 Windows Terminal 에서 pymol 명령어를 통해서 파이몰을 실행 시키고 플러그인에서 간단한 blast search등을 수행할 수 있을거야.  
+시간이 허락한다면 개발환경에대해서도 살펴보면 좋을 듯한데 사람들마다 취향이 제각각이어서 1) 윈도우 사용자들은 Anaconda 혹은 Docker desktop 환경에서 개발을 진행 할 수도 있고  
+2) 윈도우를 밀어버리고 우분투를 깔고 싶지만 카톡이라든가 은행등 기타등등의 이유로 WSL2 환경에서 우분투를 사용하는 사람도 있을꺼고  
+3) 진작에 윈도우 밀어버리고 Ubuntu20.04 설치하고 와인에서 윈도우 프로그램을 돌리거나 윈도우 자체를 vmware나 vrtualbox를 사용하는 사람들도 있을듯해  
+4) 애플 쓰시는 분들은 내장 터미널이 있으니 머 알아서 잘들하실거고   
+어떤 플랫폼을 선택하던 효율성 높은 조합을 선택하길바라고 단 명심해야할것은 어느 조합을 선택하던간에 Linux + Anaconda + Docker이 3가지 추세는 지금 안배워두면 두고두고 따라다니면서 그대들을 괴롭힐지도 몰라 지금 친해지는게 좋켔지 ^^
